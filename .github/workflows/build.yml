@@ -9,7 +9,7 @@ jobs:
     timeout-minutes: 120
     env:
       COLUMNS: "160"
-
+ FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # <-- добавьте эту строку
     steps:
       - name: Checkout Armbian build system
         uses: actions/checkout@v4
