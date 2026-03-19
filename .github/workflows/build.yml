@@ -36,5 +36,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: armbian-lamobo-r1-noble
-          path: output/images/*.img.xz
+          path: output/images/*.img
           retention-days: 7
