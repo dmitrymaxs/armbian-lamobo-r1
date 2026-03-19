@@ -1,0 +1,36 @@
+name: Build Armbian Lamobo R1
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout Armbian build system
+        uses: actions/checkout@v4
+        with:
+          repository: armbian/build
+          fetch-depth: 1
+
+      - name: Build image
+        run: |
+          sudo ./compile.sh \
+            BOARD=lamobo-r1 \
+            BRANCH=current \
+            RELEASE=noble \
+            BUILD_DESKTOP=no \
+            BUILD_MINIMAL=yes \
+            KERNEL_CONFIGURE=no \
+            COMPRESS_OUTPUTIMAGE=yes \
+            ROOTPWD=armbian123 \
+            CREATE_PATCHES=no
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: armbian-lamobo-r1-noble
+          path: output/images/*.img.xz
+          retention-days: 7
