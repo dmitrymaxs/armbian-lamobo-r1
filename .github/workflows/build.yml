@@ -3,13 +3,15 @@ name: Build Armbian Lamobo R1
 on:
   workflow_dispatch:
 
+env:
+  COLUMNS: "160"
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 120
-    env:
-      COLUMNS: "160"
- FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # <-- добавьте эту строку
+
     steps:
       - name: Checkout Armbian build system
         uses: actions/checkout@v4
@@ -32,9 +34,14 @@ jobs:
             ROOTPWD=armbian123 \
             CREATE_PATCHES=no
 
+      - name: Compress image
+        run: |
+          cd output/images
+          xz -9 *.img
+
       - name: Upload image artifact
         uses: actions/upload-artifact@v4
         with:
           name: armbian-lamobo-r1-noble
-          path: output/images/*.img
+          path: output/images/*.img.xz
           retention-days: 7
