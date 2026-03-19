@@ -7,6 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    env:
+      COLUMNS: "160"
 
     steps:
       - name: Checkout Armbian build system
@@ -16,8 +18,10 @@ jobs:
           fetch-depth: 1
 
       - name: Build image
+        env:
+          COLUMNS: "160"
         run: |
-          sudo ./compile.sh \
+          sudo COLUMNS=160 ./compile.sh \
             BOARD=lamobo-r1 \
             BRANCH=current \
             RELEASE=noble \
